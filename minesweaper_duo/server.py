@@ -119,8 +119,9 @@ class Game:
                         player.send_message(f"Вы подорвались на мине противника на координатах ({x}, {y})")
                         player.opponent.send_message(f"Противник нашел вашу мину на ({x}, {y})")
 
-                        # Немедленная проверка конца игры
-                        if len(player.hits_received) == MINES_COUNT:
+                        # Проверяем, нашел ли игрок ВСЕ мины противника
+                        found_mines = [coord for coord in player.hits_received if coord in player.opponent.mines]
+                        if len(found_mines) == MINES_COUNT:
                             player.send_message("Вы подорвались на всех минах противника. Вы проиграли.")
                             player.opponent.send_message("Оппонент подорвался на всех ваших минах. Вы победили.")
                             player.game_over = True
